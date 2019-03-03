@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="JewelryStore.AddMaterialsUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:JewelryStore"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:EnumOrFieldTemplateSelector x:Key="EnumOrFieldTemplateSelector"/>
+
+        <DataTemplate x:Key="EnumDataTemplate" DataType="{x:Type local:AddMaterialItem}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Name}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding EnumTypes}" SelectedValue="{Binding ChosenEnumType}"/>
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="FieldDataTemplate" DataType="{x:Type local:AddMaterialItem}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Name}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Value}"/>
+            </Grid>
+
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="mainbg.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="1.2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1.2*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       TextWrapping="Wrap"
+                       Foreground="White" 
+                       FontSize="20"  Width="201" Height="82">Добавление материалов в украшение
+            </TextBlock>
+
+            <Grid Grid.Row="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+            </Grid>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding addMaterialsView.Fields}"
+                          ItemTemplateSelector="{StaticResource EnumOrFieldTemplateSelector}">
+            </ItemsControl>
+
+            <Grid Grid.Row="5">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button FontSize="11" 
+                        Command="{Binding addMaterialsView.AlterMaterialCommand}"
+                        Grid.Row="1" 
+                        Content="Добавить материал" 
+                        Background="Black" 
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Width="147" 
+                        Height="46"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace JewelryOop {
-    public class Gemstone : Material {
-        public Gemstone(
+    public class PremiumGemstone : PremiumMaterial {
+        public PremiumGemstone(
             string name, 
             double pricePerGram, 
             double grams, 
-            Color gemColor) : base(name, pricePerGram, grams)
+            Color GemColor, 
+            double uniquenessRatio) : base(name, pricePerGram, grams)
         {
-            GemColor = gemColor;
+            this.GemColor = GemColor;
+            this.UniquenessRatio = uniquenessRatio;
         }
 
-        public Color GemColor { get; private set; }
+        public Color GemColor { get; set; }
+
+        public double UniquenessRatio { get; set; }
 
         public override double GetPrice()
         {
-            return base.GetPrice();
+            return base.GetPrice() * UniquenessRatio;
         }
 
         public override string GetDescription()
         {
             return base.GetDescription() +
-                Environment.NewLine
-                + GetGemDescription();
+                Environment.NewLine +
+                GetGemDescription();
         }
 
         protected string GetGemDescription()
@@ -32,6 +36,5 @@ namespace JewelryOop {
             return "Color of this gem is : "
                 + GemColor.ToString();
         }
-
     }
 }

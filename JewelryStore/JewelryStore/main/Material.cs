@@ -10,11 +10,11 @@ namespace JewelryOop {
             PricePerGram = pricePerGram;
             Grams = grams;
         }
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public double PricePerGram { get; private set; }
+        public double PricePerGram { get; set; }
 
-        public double Grams { get; private set; }
+        public double Grams { get; set; }
 
         public virtual double GetPrice()
         {

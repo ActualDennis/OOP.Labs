@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,10 @@ using System.Windows.Shapes;
 
 namespace JewelryStore {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for InitialUC.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow()
+    public partial class AddMaterialsUC : UserControl {
+        public AddMaterialsUC()
         {
             InitializeComponent();
         }

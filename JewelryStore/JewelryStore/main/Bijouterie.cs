@@ -12,7 +12,7 @@ namespace JewelryOop {
         /// <summary>
         /// Determines if Bijouterie thing looks cheap or expensive?
         /// </summary>
-        public double FoolRatio { get; private set; }
+        public double FoolRatio { get; set; }
 
         public override double GetPrice()
         {

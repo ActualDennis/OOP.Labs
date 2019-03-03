@@ -10,9 +10,24 @@ namespace JewelryOop {
             Name = name;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public List<Material> Materials { get; private set; }
+        private List<Material> materials;
+
+        public List<Material> Materials
+        {
+            get => materials;
+            set
+            {
+                if (value == null)
+                    materials = new List<Material>();
+            }
+        }
+
+        public void AddMaterial(Material material)
+        {
+            materials.Add(material);
+        }
 
         public virtual double GetPrice()
         {
