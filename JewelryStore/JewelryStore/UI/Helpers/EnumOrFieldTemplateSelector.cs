@@ -14,7 +14,7 @@ namespace JewelryStore {
         {
             FrameworkElement elem = container as FrameworkElement;
 
-            var entry = (AddMaterialItem)item;
+            var entry = (EditJewelryItem)item;
 
             if(entry.ElementType == UiElementType.Enum)
             {

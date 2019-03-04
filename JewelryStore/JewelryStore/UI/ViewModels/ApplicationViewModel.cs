@@ -19,29 +19,10 @@ namespace JewelryStore.UI.ViewModels {
         public ApplicationViewModel()
         {
             addMaterialsView = new AddMaterialsViewModel();
+            editJewelryView = new EditJewelryViewModel(addMaterialsView, () => EditJewelry_MaterialEdited(), () => EditJewelry_EditMaterial());
             CurrentJewelryMaterials = new List<Material>();
             JewelryList = new List<Jewelry>();
         }
-
-        private static readonly object padlock = new object();
-
-        private static ApplicationViewModel _instance;
-
-        public static ApplicationViewModel Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new ApplicationViewModel();
-                    }
-                    return _instance;
-                }
-            }
-        }
-
 
         public int CurrentAppScreen { get; set; }
 
@@ -61,9 +42,9 @@ namespace JewelryStore.UI.ViewModels {
 
         public ICommand AddMaterialCommand => new RelayCommand(() => AddMaterial(null), null);
 
-        public  ICommand EditJewelryCommand => new RelayCommand(() => Edit(null), null);
+        public ICommand EditJewelryCommand => new RelayCommand(() => EditJewelry(null), null);
 
-        public ICommand ViewJewelry => new RelayCommand(() => View(null), null);
+        public ICommand GotoInitialPageCommand => new RelayCommand(() => GotoInitialPage(null), null);
 
         private Dictionary<string, Material> materialsAbstractNames { get; set; }
 
@@ -71,9 +52,13 @@ namespace JewelryStore.UI.ViewModels {
 
         public AddMaterialsViewModel addMaterialsView { get; set; }
 
+        public EditJewelryViewModel editJewelryView { get; set; }
+
         private List<Material> CurrentJewelryMaterials { get; set; }
 
-        private List<Jewelry> JewelryList { get; set; }
+        public List<Jewelry> JewelryList { get; set; }
+
+        public string SelectedJewelryToView { get; set; }
 
         private void InitializeJewelry()
         {
@@ -98,7 +83,7 @@ namespace JewelryStore.UI.ViewModels {
                 InitializeJewelry();
                 var materialToAdd = materialsAbstractNames[ChosenMaterial];
                 CurrentJewelryMaterials.Add(materialToAdd);
-                addMaterialsView.AlterMaterial(ref materialToAdd,() => MaterialAddedCallback());
+                addMaterialsView.AlterMaterial(ref materialToAdd,() => MaterialAlteredCallback());
                 CurrentAppScreen = (int)ApplicationScreen.CreateMaterial;
             }
             catch(Exception ex)
@@ -107,14 +92,35 @@ namespace JewelryStore.UI.ViewModels {
             }
         }
 
-        private void View(Object parameter)
+        private void EditJewelry(Object parameter)
         {
+            try
+            {
+                if (SelectedJewelryToView == string.Empty)
+                {
+                    MessageBox.Show("Please choose jewelry.");
+                    return;
+                }
 
-        }
+                var editedIndex = JewelryList.FindIndex(x => x.ToString() == SelectedJewelryToView);
+                Jewelry editedJewelry = JewelryList.Find(x => x.ToString() == SelectedJewelryToView);
 
-        private void Edit(Object parameter)
-        {
+                if(editedJewelry == null)
+                {
+                    MessageBox.Show($"Choose one jewerly from dropdown menu.");
+                    return;
+                }
 
+                editJewelryView.InitJewelryFields(ref editedJewelry);
+
+                JewelryList[editedIndex] = editedJewelry;
+
+                CurrentAppScreen = (int)ApplicationScreen.EditJewelry;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not edit jewerly. Reason: {ex.Message}");
+            }
         }
 
         private void AddJewelry(Object parameter)
@@ -138,7 +144,7 @@ namespace JewelryStore.UI.ViewModels {
                 var jewelry = jewelryAbstractNames[SelectedJewelryType];
 
                 jewelry.Name = JewelryName;
-                jewelry.Materials = CurrentJewelryMaterials;
+                jewelry.Materials = new List<Material>(CurrentJewelryMaterials);
 
                 if (jewelry is Bijouterie)
                 {
@@ -149,6 +155,8 @@ namespace JewelryStore.UI.ViewModels {
 
                 JewelryList.Add(jewelry);
 
+                ClearFields();
+
                 CurrentJewelryMaterials = null;
                 CurrentJewelryMaterials = new List<Material>();
             }
@@ -158,17 +166,40 @@ namespace JewelryStore.UI.ViewModels {
             }
         }
 
-        private void MaterialAddedCallback()
+        private void GotoInitialPage(object p)
         {
             CurrentAppScreen = (int)ApplicationScreen.Initial;
+        }
+
+        private void ClearFields()
+        {
+            ChosenMaterial = string.Empty;
+            SelectedJewelryType = string.Empty;
+            JewelryName = string.Empty;
+            FoolRatioPercents = string.Empty;
+        }
+
+        private void MaterialAlteredCallback()
+        {
+            CurrentAppScreen = (int)ApplicationScreen.Initial;
+        }
+
+        private void EditJewelry_EditMaterial()
+        {
+            CurrentAppScreen = (int)ApplicationScreen.CreateMaterial;
+        }
+
+        private void EditJewelry_MaterialEdited()
+        {
+            CurrentAppScreen = (int)ApplicationScreen.EditJewelry;
         }
 
         private bool IsMaterialAlterred(Material material)
         {
             if (material.Name == string.Empty && material.Grams == 0 && material.PricePerGram == 0)
-                return true;
+                return false;
 
-            return false;
+            return true;
         }
     }
 

@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JewelryStore {
-    public class AddMaterialItem {
+    public class EditJewelryItem {
+        public string UiName { get; set; }
+
         public string Name { get; set; }
 
         public UiElementType ElementType { get; set; }

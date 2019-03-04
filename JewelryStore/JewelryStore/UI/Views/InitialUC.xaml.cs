@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace JewelryStore {
+namespace JewelryStore.UI.Views {
     /// <summary>
     /// Interaction logic for InitialUC.xaml
     /// </summary>

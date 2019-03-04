@@ -67,17 +67,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="main\Attributes\UiNameAttribute.cs" />
+    <Compile Include="main\TypeExtensions.cs" />
     <Compile Include="UI\Data\AddMaterialItem.cs" />
     <Compile Include="UI\Data\ApplicationScreen.cs" />
     <Compile Include="UI\Data\UiElementType.cs" />
     <Compile Include="UI\Helpers\EnumOrFieldTemplateSelector.cs" />
     <Compile Include="UI\Helpers\RelayCommand.cs" />
+    <Compile Include="UI\ViewModels\EditJewelryViewModel.cs" />
     <Compile Include="UI\ViewModels\AddMaterialsViewModel.cs" />
     <Compile Include="UI\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="UI\ViewModels\BaseViewModel.cs" />
     <Page Include="UI\Views\AddMaterialsUC.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\EditJewelry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Views\InitialUC.xaml">
       <SubType>Designer</SubType>
@@ -96,6 +103,9 @@
     <Compile Include="main\Gemstone.cs" />
     <Compile Include="UI\Views\AddMaterialsUC.xaml.cs">
       <DependentUpon>AddMaterialsUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\EditJewelry.xaml.cs">
+      <DependentUpon>EditJewelry.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Views\InitialUC.xaml.cs">
       <DependentUpon>InitialUC.xaml</DependentUpon>

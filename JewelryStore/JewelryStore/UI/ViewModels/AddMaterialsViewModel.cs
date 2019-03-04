@@ -1,10 +1,12 @@
 ﻿using JewelryOop;
+using JewelryStore.main.Attributes;
 using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,7 +15,7 @@ using System.Windows.Input;
 namespace JewelryStore.UI.ViewModels {
     public class AddMaterialsViewModel : BaseViewModel {
        
-        public ObservableCollection<AddMaterialItem> Fields { get; set; }
+        public ObservableCollection<EditJewelryItem> Fields { get; set; }
 
         private Material WhatToAdd { get; set; }
 
@@ -29,36 +31,37 @@ namespace JewelryStore.UI.ViewModels {
         {
             Callback = callback;
             Fields = null;
-            Fields = new ObservableCollection<AddMaterialItem>();
+            Fields = new ObservableCollection<EditJewelryItem>();
             var props = item.GetType().GetProperties();
 
             foreach(var property in props)
             {
                 if (property.GetMethod.ReturnType.IsEnum)
                 {
-                    Fields.Add(new AddMaterialItem()
+                    Fields.Add(new EditJewelryItem()
                     {
+                        UiName = property.GetCustomAttribute<UiNameAttribute>(false).Name,
                         Name = property.Name,
                         ElementType = UiElementType.Enum,
                         EnumTypes = property.GetMethod.ReturnType.GetEnumNames(),
-                        FieldType = property.GetMethod.ReturnType
+                        FieldType = property.GetMethod.ReturnType,
                     });
                 }
                 else
                 {
-                    Fields.Add(new AddMaterialItem() { Name = property.Name, ElementType = UiElementType.Field, FieldType = property.GetMethod.ReturnType});
+                    Fields.Add(new EditJewelryItem() { Name = property.Name, UiName = property.GetCustomAttribute<UiNameAttribute>(false).Name, ElementType = UiElementType.Field, FieldType = property.GetMethod.ReturnType});
                 }
             }
 
             WhatToAdd = item;
         }
                
-        public void AlterMaterial(Object parameter)
+        private void AlterMaterial(Object parameter)
         {
             try
             {
-                var type = WhatToAdd.GetType();
-                var fields = type.GetProperties();
+                Type type = WhatToAdd.GetType();
+                PropertyInfo[] fields = type.GetProperties();
 
                 foreach (var field in fields)
                 {
@@ -93,7 +96,7 @@ namespace JewelryStore.UI.ViewModels {
             }
             catch(Exception ex)
             {
-                MessageBox.Show($"Wrong data was provided. Can't add that material. Detailed Error: {ex.Message}");
+                MessageBox.Show($"Wrong data was provided. Can't edit that material. Detailed Error: {ex.Message}");
             }
         }
 

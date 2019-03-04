@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="JewelryStore.AddMaterialsUC"
+﻿<UserControl x:Class="JewelryStore.UI.Views.AddMaterialsUC"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <local:EnumOrFieldTemplateSelector x:Key="EnumOrFieldTemplateSelector"/>
 
-        <DataTemplate x:Key="EnumDataTemplate" DataType="{x:Type local:AddMaterialItem}">
+        <DataTemplate x:Key="EnumDataTemplate" DataType="{x:Type local:EditJewelryItem}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -17,20 +17,20 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding Name}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <ComboBox ItemsSource="{Binding EnumTypes}" SelectedValue="{Binding ChosenEnumType}"/>
             </Grid>
 
         </DataTemplate>
 
-        <DataTemplate x:Key="FieldDataTemplate" DataType="{x:Type local:AddMaterialItem}">
+        <DataTemplate x:Key="FieldDataTemplate" DataType="{x:Type local:EditJewelryItem}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding Name}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding Value}"/>
             </Grid>
 
@@ -77,7 +77,6 @@
             <Grid Grid.Row="5">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 

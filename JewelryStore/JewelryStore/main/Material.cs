@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.main.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,10 +11,14 @@ namespace JewelryOop {
             PricePerGram = pricePerGram;
             Grams = grams;
         }
+
+        [UiName(Name = "Имя")]
         public string Name { get; set; }
 
+        [UiName(Name = "Цена за грам")]
         public double PricePerGram { get; set; }
 
+        [UiName(Name = "Кол-во грамм")]
         public double Grams { get; set; }
 
         public virtual double GetPrice()
@@ -24,6 +29,11 @@ namespace JewelryOop {
         public virtual string GetDescription()
         {
             return$"Name : {Name} Weight : {Grams} Price: {GetPrice()}";
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.main.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,9 +15,9 @@ namespace JewelryOop {
             this.GemColor = GemColor;
             this.UniquenessRatio = uniquenessRatio;
         }
-
+        [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }
-
+        [UiName(Name = "Уникальность (любое число)")]
         public double UniquenessRatio { get; set; }
 
         public override double GetPrice()

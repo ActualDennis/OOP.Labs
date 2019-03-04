@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.main.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace JewelryOop {
             Name = name;
         }
 
+        [UiName(Name = "Имя")]
         public string Name { get; set; }
 
         private List<Material> materials;
@@ -21,6 +23,8 @@ namespace JewelryOop {
             {
                 if (value == null)
                     materials = new List<Material>();
+
+                materials = value;
             }
         }
 
@@ -51,5 +55,24 @@ namespace JewelryOop {
             return result;
         }
 
+        public virtual string GetDescription()
+        {
+            var result = string.Empty;
+            result += $"Jewelry named: {Name} , look-like price: {GetPrice()}, priced: {GetRealPrice()}";
+            result += $"{Environment.NewLine}Materials used:";
+            int counter = 0;
+            foreach (var material in Materials)
+            {
+                ++counter;
+                result += $"{Environment.NewLine}{counter}. {material.GetDescription()}";
+            }
+
+            return result;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

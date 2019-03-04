@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.main.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace JewelryOop {
         /// <summary>
         /// Determines if Bijouterie thing looks cheap or expensive?
         /// </summary>
+        [UiName(Name = "Насколько ( % ) выглядит украшение")]
         public double FoolRatio { get; set; }
 
         public override double GetPrice()
@@ -23,5 +25,7 @@ namespace JewelryOop {
         {
             return base.GetRealPrice();
         }
+
+        public override string GetDescription() => base.GetDescription();
     }
 }

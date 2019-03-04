@@ -8,7 +8,6 @@ namespace JewelryStore.UI.Data {
     public enum ApplicationScreen {
         Initial,
         CreateMaterial,
-        ViewJewelry,
         EditJewelry
     }
 }

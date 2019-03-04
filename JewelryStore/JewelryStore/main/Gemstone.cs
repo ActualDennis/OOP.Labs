@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JewelryStore.main.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace JewelryOop {
         {
             GemColor = gemColor;
         }
-
+        [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }
 
         public override double GetPrice()
