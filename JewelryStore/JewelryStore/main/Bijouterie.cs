@@ -13,7 +13,7 @@ namespace JewelryOop {
         /// <summary>
         /// Determines if Bijouterie thing looks cheap or expensive?
         /// </summary>
-        [UiName(Name = "Насколько ( % ) выглядит украшение")]
+        [UiName(Name = "Насколько хорошо ( % ) выглядит украшение")]
         public double FoolRatio { get; set; }
 
         public override double GetPrice()

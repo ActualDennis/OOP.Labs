@@ -41,7 +41,9 @@ namespace JewelryStore.UI.ViewModels {
 
         public string ChosenMaterial { get; set; }
 
-        public List<Material> EditableJewelryMaterials { get; set; } 
+        public List<Material> EditableJewelryMaterials { get; set; }
+
+        public ObservableCollection<Material> EditableJewelryMaterialsUI { get; set; }
 
         public AddMaterialsViewModel addMaterialsVm { get; set; }
 
@@ -83,6 +85,7 @@ namespace JewelryStore.UI.ViewModels {
 
             JewelryToEdit = item;
             EditableJewelryMaterials = JewelryToEdit.Materials;
+            EditableJewelryMaterialsUI = new ObservableCollection<Material>(JewelryToEdit.Materials);
             IsEditingJewelryAllowed = true;
             IsEditingMaterialAllowed = true;
         }
@@ -98,6 +101,7 @@ namespace JewelryStore.UI.ViewModels {
                 if (editableMaterial == null)
                 {
                     MessageBox.Show($"Choose one of the materials from the dropdown menu.");
+                    IsEditingMaterialAllowed = true;
                     return;
                 }
                     
@@ -106,7 +110,11 @@ namespace JewelryStore.UI.ViewModels {
 
                 addMaterialsVm.AlterMaterial(ref editableMaterial, () => OnMaterialEdited());
 
-                EditableJewelryMaterials[editableMaterialIndex] = editableMaterial;
+                EditableJewelryMaterials.RemoveAt(editableMaterialIndex);
+                EditableJewelryMaterials.Add(editableMaterial);
+
+                EditableJewelryMaterialsUI.RemoveAt(editableMaterialIndex);
+                EditableJewelryMaterialsUI.Add(editableMaterial);
             }
             catch(Exception ex)
             {

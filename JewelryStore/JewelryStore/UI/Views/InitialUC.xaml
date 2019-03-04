@@ -45,8 +45,8 @@
                           Foreground="White"
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center" 
-                          ItemsSource="{Binding JewelryTypes}"
-                          SelectedValue="{Binding SelectedJewelryType}"
+                          ItemsSource="{Binding JewelryTypes, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding SelectedJewelryType, UpdateSourceTrigger=PropertyChanged}"
                           Width="222"/>
                 
                 <TextBlock Grid.Row="0" 
@@ -117,8 +117,8 @@
                           Foreground="White"  
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center"
-                          ItemsSource="{Binding Materials}"
-                          SelectedValue="{Binding ChosenMaterial}"
+                          ItemsSource="{Binding Materials, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding ChosenMaterial, UpdateSourceTrigger=PropertyChanged}"
                           Width="222"/>
                 
                 <TextBlock Grid.Row="0"  
@@ -194,8 +194,8 @@
                 
                 <ComboBox Name="ChooseMaterialCombobox" 
                           Foreground="White"
-                          ItemsSource="{Binding JewelryList}"
-                          SelectedValue="{Binding SelectedJewelryToView}"
+                          ItemsSource="{Binding JewelryListUI, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding SelectedJewelryToView, UpdateSourceTrigger=PropertyChanged}"
                           Grid.Row="1"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Top" 

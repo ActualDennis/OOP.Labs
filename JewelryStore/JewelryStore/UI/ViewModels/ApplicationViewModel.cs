@@ -3,6 +3,7 @@ using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace JewelryStore.UI.ViewModels {
             editJewelryView = new EditJewelryViewModel(addMaterialsView, () => EditJewelry_MaterialEdited(), () => EditJewelry_EditMaterial());
             CurrentJewelryMaterials = new List<Material>();
             JewelryList = new List<Jewelry>();
+            JewelryListUI = new ObservableCollection<Jewelry>();
         }
 
         public int CurrentAppScreen { get; set; }
@@ -57,6 +59,8 @@ namespace JewelryStore.UI.ViewModels {
         private List<Material> CurrentJewelryMaterials { get; set; }
 
         public List<Jewelry> JewelryList { get; set; }
+
+        public ObservableCollection<Jewelry> JewelryListUI { get; set; }
 
         public string SelectedJewelryToView { get; set; }
 
@@ -94,6 +98,7 @@ namespace JewelryStore.UI.ViewModels {
 
         private void EditJewelry(Object parameter)
         {
+            
             try
             {
                 if (SelectedJewelryToView == string.Empty)
@@ -113,7 +118,10 @@ namespace JewelryStore.UI.ViewModels {
 
                 editJewelryView.InitJewelryFields(ref editedJewelry);
 
-                JewelryList[editedIndex] = editedJewelry;
+                JewelryList.RemoveAt(editedIndex);
+                JewelryListUI.RemoveAt(editedIndex);
+                JewelryList.Add(editedJewelry);
+                JewelryListUI.Add(editedJewelry);
 
                 CurrentAppScreen = (int)ApplicationScreen.EditJewelry;
             }
@@ -154,6 +162,8 @@ namespace JewelryStore.UI.ViewModels {
                 MessageBox.Show($"Successfully added {jewelry.Name}.");
 
                 JewelryList.Add(jewelry);
+
+                JewelryListUI.Add(jewelry);
 
                 ClearFields();
 
