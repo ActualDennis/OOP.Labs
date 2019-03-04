@@ -42,6 +42,7 @@
 
                 <ComboBox Name="JewelryTypeCombobox" 
                           Grid.Row="1"  
+                          Foreground="White"
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center" 
                           ItemsSource="{Binding JewelryTypes}"
@@ -113,6 +114,7 @@
 
                 <ComboBox
                           Grid.Row="1" 
+                          Foreground="White"  
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center"
                           ItemsSource="{Binding Materials}"
@@ -191,6 +193,7 @@
                     <Run Text="Выберите украшение:"/></TextBlock>
                 
                 <ComboBox Name="ChooseMaterialCombobox" 
+                          Foreground="White"
                           ItemsSource="{Binding JewelryList}"
                           SelectedValue="{Binding SelectedJewelryToView}"
                           Grid.Row="1"

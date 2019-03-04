@@ -18,7 +18,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox ItemsSource="{Binding EnumTypes}" SelectedValue="{Binding ChosenEnumType}"/>
+                <ComboBox Foreground="White"  ItemsSource="{Binding EnumTypes}" SelectedValue="{Binding ChosenEnumType}"/>
             </Grid>
 
         </DataTemplate>

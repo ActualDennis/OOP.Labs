@@ -27,5 +27,7 @@ namespace JewelryOop {
         }
 
         public override string GetDescription() => base.GetDescription();
+
+        public override string ToString() => base.ToString();
     }
 }
