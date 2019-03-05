@@ -48,6 +48,8 @@ namespace JewelryStore.UI.ViewModels {
 
         public ICommand GotoInitialPageCommand => new RelayCommand(() => GotoInitialPage(null), null);
 
+        public ICommand DeleteJewelryCommand => new RelayCommand(() => DeleteJewelry(null), null);
+
         private Dictionary<string, Material> materialsAbstractNames { get; set; }
 
         private Dictionary<string, Jewelry> jewelryAbstractNames { get; set; }
@@ -62,7 +64,7 @@ namespace JewelryStore.UI.ViewModels {
 
         public ObservableCollection<Jewelry> JewelryListUI { get; set; }
 
-        public string SelectedJewelryToView { get; set; }
+        public string SelectedJewelry { get; set; }
 
         private void InitializeJewelry()
         {
@@ -101,14 +103,14 @@ namespace JewelryStore.UI.ViewModels {
             
             try
             {
-                if (SelectedJewelryToView == string.Empty)
+                if (SelectedJewelry == string.Empty)
                 {
                     MessageBox.Show("Please choose jewelry.");
                     return;
                 }
 
-                var editedIndex = JewelryList.FindIndex(x => x.ToString() == SelectedJewelryToView);
-                Jewelry editedJewelry = JewelryList.Find(x => x.ToString() == SelectedJewelryToView);
+                var editedIndex = JewelryList.FindIndex(x => x.ToString() == SelectedJewelry);
+                Jewelry editedJewelry = JewelryList.Find(x => x.ToString() == SelectedJewelry);
 
                 if(editedJewelry == null)
                 {
@@ -143,7 +145,7 @@ namespace JewelryStore.UI.ViewModels {
                     return;
                 }
 
-                if (JewelryName == string.Empty)
+                if (string.IsNullOrEmpty(JewelryName))
                 {
                     MessageBox.Show("Please choose some name for your jewelry.");
                     return;
@@ -173,6 +175,27 @@ namespace JewelryStore.UI.ViewModels {
             catch(Exception ex)
             {
                 MessageBox.Show($"Can't add jewelry. Reason: {ex.Message}.");
+            }
+        }
+
+        private void DeleteJewelry(object p)
+        {
+            if(string.IsNullOrEmpty(SelectedJewelry))
+            {
+                MessageBox.Show("Please choose a jewelry from the list.");
+                return;
+            }
+
+            try
+            {
+                var removalIndex = JewelryList.FindIndex(x => x.ToString() == SelectedJewelry);
+                JewelryList.RemoveAt(removalIndex);
+                JewelryListUI.RemoveAt(removalIndex);
+                MessageBox.Show($"Successfully removed.");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Could not remove jewelry. Reason: {ex.Message}");
             }
         }
 

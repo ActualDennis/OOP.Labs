@@ -17,8 +17,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding UiName}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox ItemsSource="{Binding EnumTypes, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding ChosenEnumType, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Foreground="White" Text="{Binding UiName}" Padding="0 0 0 40" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox Foreground="White" ItemsSource="{Binding EnumTypes, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding ChosenEnumType, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
         </DataTemplate>
@@ -30,8 +30,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding UiName}" Padding="0 0 0 40" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Value}"/>
+                <TextBlock Text="{Binding UiName}" Foreground="White" Padding="0 0 0 40" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" Text="{Binding Value}"/>
             </Grid>
 
         </DataTemplate>
@@ -81,6 +81,7 @@
                           Width="200"
                           VerticalAlignment="Center" 
                           HorizontalAlignment="Center"
+                          Foreground="White"
                           ItemsSource="{Binding editJewelryView.EditableJewelryMaterialsUI, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding editJewelryView.ChosenMaterial, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>

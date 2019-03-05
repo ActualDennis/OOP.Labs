@@ -17,7 +17,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Foreground="White" Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <ComboBox Foreground="White"  ItemsSource="{Binding EnumTypes}" SelectedValue="{Binding ChosenEnumType}"/>
             </Grid>
 
@@ -30,8 +30,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Value}"/>
+                <TextBlock Foreground="White" Text="{Binding UiName}" Padding="0 0 0 35" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Foreground="White" Text="{Binding Value}"/>
             </Grid>
 
         </DataTemplate>

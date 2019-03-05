@@ -68,6 +68,7 @@
 
                 <TextBox Name="JewelryNameTextbox"
                          Grid.Row="1"
+                         Foreground="White"
                          Text="{Binding JewelryName}"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"
@@ -90,7 +91,8 @@
                 </Grid.RowDefinitions>
 
                 <TextBox
-                          Grid.Row="1" 
+                          Grid.Row="1"
+                          Foreground="White"
                           Text="{Binding FoolRatioPercents}"  
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center"
@@ -195,7 +197,7 @@
                 <ComboBox Name="ChooseMaterialCombobox" 
                           Foreground="White"
                           ItemsSource="{Binding JewelryListUI, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding SelectedJewelryToView, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding SelectedJewelry, UpdateSourceTrigger=PropertyChanged}"
                           Grid.Row="1"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Top" 
@@ -203,15 +205,26 @@
             </Grid>
 
             <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
 
                 <Button FontSize="12" 
                         Name="ViewButton" 
                         Command="{Binding EditJewelryCommand}"
                         Grid.Column="1" 
                         Content="Просмотреть/Редактировать"
+                        Background="Black" 
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" 
+                        Height="46"/>
+
+                <Button FontSize="12" 
+                        Command="{Binding DeleteJewelryCommand}"
+                        Grid.Row="1"
+                        Content="Удалить украшение"
                         Background="Black" 
                         Foreground="White" 
                         HorizontalAlignment="Center" 
