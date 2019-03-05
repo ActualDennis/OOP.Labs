@@ -42,7 +42,7 @@
             <ImageBrush ImageSource="mainbg.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1.3*"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -106,28 +106,45 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button FontSize="11" 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.6*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button FontSize="11" 
                         Command="{Binding editJewelryView.EditMaterialCommand}"
                         Grid.Row="0" 
-                        Content="Изменить материал" 
+                        Content="Редактировать материал" 
                         Background="Black" 
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
                         IsEnabled="{Binding editJewelryView.IsEditingMaterialAllowed}"
-                        Width="147" 
                         Height="46"/>
+
+                    <Button 
+                        Grid.Column="1"
+                        Command="{Binding editJewelryView.DeleteMaterialCommand}"
+                        Content="Удалить материал" 
+                        Background="Black" 
+                        FontSize="10"
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center"
+                        Height="46"/>
+                </Grid>
+
 
                 <Button FontSize="11" 
                         Command="{Binding editJewelryView.EditJewelryCommand}"
                         Grid.Row="1" 
-                        Content="Изменить украшение" 
+                        Content="Применить изменения к украшению" 
                         Background="Black"
                         IsEnabled="{Binding editJewelryView.IsEditingJewelryAllowed}"
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center" 
-                        Width="147" 
                         Height="46"/>
             </Grid>
         </Grid>
@@ -164,7 +181,7 @@
                          FontSize="14"
                          TextWrapping="Wrap"
                          Height="200" 
-                         Width="280"/>
+                         Width="220"/>
             </Grid>
 
             <Grid Grid.Row="5">

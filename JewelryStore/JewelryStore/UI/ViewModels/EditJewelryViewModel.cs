@@ -30,6 +30,8 @@ namespace JewelryStore.UI.ViewModels {
         public ICommand EditMaterialCommand => new RelayCommand(() => EditMaterial(null), null);
 
         public ICommand ViewInfoCommand => new RelayCommand(() => ViewInfo(null), null);
+        
+        public ICommand DeleteMaterialCommand => new RelayCommand(() => DeleteMaterial(null), null);
 
         public string JewelryDescription { get; set; }
 
@@ -89,7 +91,28 @@ namespace JewelryStore.UI.ViewModels {
             IsEditingJewelryAllowed = true;
             IsEditingMaterialAllowed = true;
         }
-               
+
+        private void DeleteMaterial(object p)
+        {
+            if (string.IsNullOrEmpty(ChosenMaterial))
+            {
+                MessageBox.Show("Please choose a material from the list.");
+                return;
+            }
+
+            try
+            {
+                var removalIndex = EditableJewelryMaterials.FindIndex(x => x.ToString() == ChosenMaterial);
+                EditableJewelryMaterials.RemoveAt(removalIndex);
+                EditableJewelryMaterialsUI.RemoveAt(removalIndex);
+                MessageBox.Show($"Successfully removed.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not remove material. Reason: {ex.Message}");
+            }
+        }
+
         private void EditMaterial(Object parameter)
         {
             try
