@@ -9,20 +9,49 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace JewelryStore.main.Serialization {
-    public static class JewelryXmlSerializer {
-        public static string SerializeIndented(object value)
+    public class JewelryXmlSerializer : IJewelrySerializer {
+        public List<Jewelry> Deserialize(FileStream source)
         {
-            var objToSerialize = new JewelrySerialized();
-
-            objToSerialize.jewelries = (List<Jewelry>) value;
-
-            var serializer = new XmlSerializer(objToSerialize.GetType());
-            
-            var stringWriter = new StringWriter();
-            using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Indent = true, IndentChars = "\t" }))
+            try
             {
-                serializer.Serialize(writer, objToSerialize);
-                return stringWriter.ToString();
+                var serializer = new XmlSerializer(typeof(JewelrySerialized));
+
+                var tempObj = (JewelrySerialized)serializer.Deserialize(source);
+
+                return tempObj.jewelries;
+            }
+            finally
+            {
+                source.Close();
+            }
+        }
+
+        public void Serialize(object value, FileStream destination)
+        {
+            try
+            {
+                var objToSerialize = new JewelrySerialized();
+
+                objToSerialize.jewelries = (List<Jewelry>)value;
+
+                var serializer = new XmlSerializer(objToSerialize.GetType());
+
+                var stringWriter = new StringWriter();
+                using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Indent = true, IndentChars = "\t" }))
+                {
+                    writer.WriteProcessingInstruction("xml", "version='1.0'");
+                    serializer.Serialize(writer, objToSerialize);
+
+                    using (var writer2 = new StreamWriter(destination))
+                    {
+                        writer2.Write(stringWriter.ToString());
+                        writer2.Flush();
+                    }
+                }
+            }
+            finally
+            {
+                destination.Close();
             }
         }
     }

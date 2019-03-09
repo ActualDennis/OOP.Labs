@@ -68,8 +68,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="main\Attributes\UiNameAttribute.cs" />
+    <Compile Include="main\Serialization\IJewelrySerializer.cs" />
+    <Compile Include="main\Serialization\JewelryBinarySerializer.cs" />
     <Compile Include="main\Serialization\JewelrySerialized.cs" />
     <Compile Include="main\Serialization\JewelryXmlSerializer.cs" />
+    <Compile Include="main\Serialization\SerializationProvider.cs" />
     <Compile Include="main\TypeExtensions.cs" />
     <Compile Include="UI\Data\AddMaterialItem.cs" />
     <Compile Include="UI\Data\ApplicationScreen.cs" />
