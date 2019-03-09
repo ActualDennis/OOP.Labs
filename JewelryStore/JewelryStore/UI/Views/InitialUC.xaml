@@ -167,7 +167,7 @@
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="0.6*"/>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -210,26 +210,61 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button FontSize="12" 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button FontSize="12" 
                         Name="ViewButton" 
                         Command="{Binding EditJewelryCommand}"
                         Grid.Column="1" 
-                        Content="Просмотреть/Редактировать"
+                        Content="Просм./ред."
                         Background="Black" 
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Top" 
                         Height="46"/>
 
-                <Button FontSize="12" 
+                    <Button FontSize="12" 
                         Command="{Binding DeleteJewelryCommand}"
                         Grid.Row="1"
-                        Content="Удалить украшение"
+                        Content="Удалить украш."
                         Background="Black" 
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Top" 
                         Height="46"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button FontSize="12" 
+                        Command="{Binding SerializeCommand}"
+                        Grid.Row="1"
+                        Content="Сохранить"
+                        Background="Black" 
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" 
+                        Height="46"/>
+
+                    <Button FontSize="12" 
+                        Command="{Binding DeserializeCommand}"
+                        Grid.Column="1" 
+                        Content="Загрузить"
+                        Background="Black" 
+                        Foreground="White" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" 
+                        Height="46"/>
+                </Grid>
+
             </Grid>
         </Grid>
 

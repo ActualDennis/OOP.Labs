@@ -2,8 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace JewelryOop {
+
+    [XmlInclude(typeof(PremiumMaterial))]
+    [XmlInclude(typeof(Gemstone))]
+    [Serializable]
+    [XmlType(TypeName = "Материал")]
     public class Material {
         public Material(string name, double pricePerGram, double grams)
         {
@@ -12,12 +18,21 @@ namespace JewelryOop {
             Grams = grams;
         }
 
+        public Material()
+        {
+
+        }
+
+
+        [XmlAttribute(AttributeName = "Имя")]
         [UiName(Name = "Имя")]
         public string Name { get; set; }
 
+        [XmlAttribute(AttributeName = "ЦенаЗаГрамм")]
         [UiName(Name = "Цена за грам")]
         public double PricePerGram { get; set; }
 
+        [XmlAttribute(AttributeName = "Кол-воГрамм")]
         [UiName(Name = "Кол-во грамм")]
         public double Grams { get; set; }
 

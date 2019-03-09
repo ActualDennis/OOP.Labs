@@ -2,8 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace JewelryOop {
+
+    [Serializable]
+    [XmlType(TypeName = "Камень")]
     public class Gemstone : Material {
         public Gemstone(
             string name, 
@@ -13,6 +17,13 @@ namespace JewelryOop {
         {
             GemColor = gemColor;
         }
+
+        private Gemstone()
+        {
+
+        }
+
+        [XmlAttribute(AttributeName = "ЦветКамня")]
         [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }
 

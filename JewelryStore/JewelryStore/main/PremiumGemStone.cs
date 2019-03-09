@@ -2,8 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace JewelryOop {
+
+    [Serializable]
+    [XmlType(TypeName = "ДорогойКамень")]
     public class PremiumGemstone : PremiumMaterial {
         public PremiumGemstone(
             string name, 
@@ -15,8 +19,18 @@ namespace JewelryOop {
             this.GemColor = GemColor;
             this.UniquenessRatio = uniquenessRatio;
         }
+
+        private PremiumGemstone()
+        {
+
+        }
+
+
+        [XmlAttribute(AttributeName = "ЦветКамня")]
         [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }
+
+        [XmlAttribute(AttributeName = "Уникальность")]
         [UiName(Name = "Уникальность (любое число)")]
         public double UniquenessRatio { get; set; }
 

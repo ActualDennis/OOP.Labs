@@ -1,14 +1,19 @@
 ﻿using JewelryOop;
+using JewelryStore.main.Serialization;
 using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace JewelryStore.UI.ViewModels {
 
@@ -49,6 +54,10 @@ namespace JewelryStore.UI.ViewModels {
         public ICommand GotoInitialPageCommand => new RelayCommand(() => GotoInitialPage(null), null);
 
         public ICommand DeleteJewelryCommand => new RelayCommand(() => DeleteJewelry(null), null);
+
+        public ICommand SerializeCommand => new RelayCommand(() => Serialize(null), null);
+
+        public ICommand DeserializeCommand => new RelayCommand(() => Deserialize(null), null);
 
         private Dictionary<string, Material> materialsAbstractNames { get; set; }
 
@@ -225,6 +234,52 @@ namespace JewelryStore.UI.ViewModels {
         private void EditJewelry_MaterialEdited()
         {
             CurrentAppScreen = (int)ApplicationScreen.EditJewelry;
+        }
+
+
+        private void Serialize(object p)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Binary data (*.bin)|*.bin|XML file(*.xml)|*.xml";
+            var result = dialog.ShowDialog();
+
+            if (result == null || result == false)
+                return;
+
+            var extension = Path.GetExtension(dialog.SafeFileName);
+
+            switch (extension)
+            {
+                case ".xml":
+                    {
+                        try
+                        {
+                            var fileContents = JewelryXmlSerializer.SerializeIndented(JewelryList);
+
+                            using (var writer = new StreamWriter(new FileStream(dialog.FileName, FileMode.Create)))
+                            {
+                                writer.Write(fileContents);
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("An error occurred", ex);
+                        }
+
+
+                        break;
+                    }
+                case ".bin":
+                    {
+                        break;
+                    }
+            }
+        }
+
+        private void Deserialize(object p)
+        { 
+            
         }
 
         private bool IsMaterialAlterred(Material material)

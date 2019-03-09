@@ -2,8 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace JewelryOop {
+    [Serializable]
+    [XmlType(TypeName = "ДорогоеУкрашение")]
+    [XmlInclude(typeof(Bijouterie))]
     public class Jewelry {
         public Jewelry(string name, List<Material> materials)
         { 
@@ -11,11 +15,18 @@ namespace JewelryOop {
             Name = name;
         }
 
+        public Jewelry()
+        {
+
+        }
+
+        [XmlAttribute(AttributeName = "Имя")]
         [UiName(Name = "Имя")]
         public string Name { get; set; }
 
         private List<Material> materials;
 
+        [XmlArray(ElementName = "Материалы")]
         public List<Material> Materials
         {
             get => materials;
