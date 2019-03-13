@@ -60,6 +60,8 @@ namespace JewelryStore.UI.ViewModels {
 
         public ICommand DeserializeCommand => new RelayCommand(() => Deserialize(null), null);
 
+        public ICommand TestCommand => new RelayCommand(() => Test(null), null);
+
         private Dictionary<string, Material> materialsAbstractNames { get; set; }
 
         private Dictionary<string, Jewelry> jewelryAbstractNames { get; set; }
@@ -143,6 +145,24 @@ namespace JewelryStore.UI.ViewModels {
             {
                 MessageBox.Show($"Could not edit jewerly. Reason: {ex.Message}");
             }
+        }
+
+        private void Test(object p)
+        {
+            //Bijouterie bijouterie;
+            //Jewelry anotherJewelry;
+            //var list = new List<Material>();
+            //list.Add(new Gemstone("gem", 12, 12, Color.Black));
+            //list.Add(new PremiumMaterial("premMat", 12, 12));
+            //list.Add(new Material("material", 12, 12));
+
+            //bijouterie = new Bijouterie("1", list, 1);
+            //anotherJewelry = new Jewelry("2", list);
+
+            var fs = new FileStream("H:/test.txt", FileMode.Open);
+
+            var x = new TextSerializer();
+            x.Deserialize(fs);
         }
 
         private void AddJewelry(Object parameter)

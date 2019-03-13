@@ -10,11 +10,20 @@ using JewelryOop;
 using JewelryStore.main.Attributes;
 
 namespace JewelryStore.main.Serialization {
-    public class TextSerializer : IJewelrySerializer {
-        public List<Jewelry> Deserialize(FileStream source)
+    public class TextSerializer {
+
+        public object Deserialize(FileStream source)
         {
-            //Activator.CreateInstanceFrom(typeof(Jewelry).Assembly.Location, )
-            throw new NotImplementedException();
+            string serializedString;
+
+            using (var reader = new StreamReader(source))
+            {
+                serializedString = reader.ReadToEnd();
+            }
+
+            serializedString = serializedString.Replace("\n", "");
+
+            return ParseObject(serializedString);
         }
         public void Serialize(object value, FileStream destination)
         {
@@ -24,6 +33,51 @@ namespace JewelryStore.main.Serialization {
             {
                 writer.Write(result);
             }
+           
+        }
+
+        private object ParseObject(string serializedObject)
+        {
+            var baseClass = serializedObject.Substring(serializedObject.IndexOf("'") + 1,
+                serializedObject.IndexOf("{") - serializedObject.IndexOf("'") - 1 - 1);
+
+            var Class = Assembly.GetExecutingAssembly().CreateInstance(baseClass);
+
+            //TODO: Create list of objects, arrays and properties inside this object, fill them. 
+
+        }
+
+        private List<object> ParseList(string serializedArray)
+        {
+            //TODO: Create list of objects inside.
+        }
+
+        private void FillTheProperty(string name, object value, ref object obj)
+        {
+            var props = obj.GetType().GetProperties();
+
+            foreach(var property in props)
+            {
+                if(property.Name == name)
+                {
+                    if (property.PropertyType.IsEnum)
+                    {
+                        value = ParseEnumVariable(property.Name, property.PropertyType);
+                    }
+
+                    if (property.PropertyType.IsValueType)
+                    {
+                        value = double.Parse(name);
+                    }
+
+                    property.SetValue(obj, value);                  
+                }
+            }
+        }
+
+        private object ParseEnumVariable(string memberName, Type enumType)
+        {
+            return Enum.Parse(enumType, memberName);
         }
 
         private string Serialize(object member)
@@ -32,14 +86,14 @@ namespace JewelryStore.main.Serialization {
 
             if (IsSerializableClass(member))
             {
-                result += $"\n'{member.GetType().Name}'";
+                result += $"\n'{member.GetType().FullName}'";
                 result += "\n{";
 
                 var fields = GetMembersWithTextFieldAttribute(member);
 
                 foreach (var field in fields)
                 {
-                    result += $"\n''{field.Name}''=={field.GetMethod.Invoke(member, null)};";
+                    result += $"\n|{field.Name}|=={field.GetMethod.Invoke(member, null)};";
                 }
 
                 var arrays = GetMembersWithTextArrayAttribute(member);
@@ -47,7 +101,7 @@ namespace JewelryStore.main.Serialization {
                 foreach (var array in arrays)
                 {
                     var ienumerable = (IEnumerable<object>)array.GetMethod.Invoke(member, null);
-                    result += $"''{array.Name}''==";
+                    result += $"|{array.Name}|==";
                     result += "\n[";
 
                     foreach (var item in ienumerable)

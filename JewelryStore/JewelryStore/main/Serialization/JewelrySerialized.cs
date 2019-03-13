@@ -9,6 +9,10 @@ namespace JewelryStore.main.Serialization {
     [Serializable]
     [XmlRoot(ElementName = "Украшения")]
     public class JewelrySerialized {
+        public JewelrySerialized()
+        {
+
+        }
 
         [TextArray]
         [XmlArray(ElementName = "Украшения")]
