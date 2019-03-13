@@ -5,7 +5,9 @@ using System.Text;
 using System.Xml.Serialization;
 
 namespace JewelryOop {
+
     [Serializable]
+    [TextClass]
     [XmlType(TypeName = "ДорогоеУкрашение")]
     [XmlInclude(typeof(Bijouterie))]
     public class Jewelry {
@@ -17,15 +19,16 @@ namespace JewelryOop {
 
         public Jewelry()
         {
-
+            
         }
-
+        [TextField]
         [XmlAttribute(AttributeName = "Имя")]
         [UiName(Name = "Имя")]
         public string Name { get; set; }
 
         private List<Material> materials;
 
+        [TextArray]
         [XmlArray(ElementName = "Материалы")]
         public List<Material> Materials
         {

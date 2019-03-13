@@ -30,9 +30,10 @@ namespace JewelryStore.main.Serialization {
         {
             try
             {
-                var objToSerialize = new JewelrySerialized();
-
-                objToSerialize.jewelries = (List<Jewelry>)value;
+                var objToSerialize = new JewelrySerialized
+                {
+                    jewelries = (List<Jewelry>)value
+                };
 
                 var serializer = new XmlSerializer(objToSerialize.GetType());
 

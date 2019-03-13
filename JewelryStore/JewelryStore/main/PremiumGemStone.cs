@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 namespace JewelryOop {
 
     [Serializable]
+    [TextClass]
     [XmlType(TypeName = "ДорогойКамень")]
     public class PremiumGemstone : PremiumMaterial {
         public PremiumGemstone(
@@ -25,11 +26,12 @@ namespace JewelryOop {
 
         }
 
-
+        [TextField]
         [XmlAttribute(AttributeName = "ЦветКамня")]
         [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }
 
+        [TextField]
         [XmlAttribute(AttributeName = "Уникальность")]
         [UiName(Name = "Уникальность (любое число)")]
         public double UniquenessRatio { get; set; }

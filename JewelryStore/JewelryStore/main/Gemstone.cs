@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 namespace JewelryOop {
 
     [Serializable]
+    [TextClass]
     [XmlType(TypeName = "Камень")]
     public class Gemstone : Material {
         public Gemstone(
@@ -22,7 +23,7 @@ namespace JewelryOop {
         {
 
         }
-
+        [TextField]
         [XmlAttribute(AttributeName = "ЦветКамня")]
         [UiName(Name = "Цвет камня")]
         public Color GemColor { get; set; }

@@ -9,6 +9,7 @@ namespace JewelryOop {
     [XmlInclude(typeof(PremiumMaterial))]
     [XmlInclude(typeof(Gemstone))]
     [Serializable]
+    [TextClass]
     [XmlType(TypeName = "Материал")]
     public class Material {
         public Material(string name, double pricePerGram, double grams)
@@ -23,15 +24,17 @@ namespace JewelryOop {
 
         }
 
-
+        [TextField]
         [XmlAttribute(AttributeName = "Имя")]
         [UiName(Name = "Имя")]
         public string Name { get; set; }
 
+        [TextField]
         [XmlAttribute(AttributeName = "ЦенаЗаГрамм")]
         [UiName(Name = "Цена за грам")]
         public double PricePerGram { get; set; }
 
+        [TextField]
         [XmlAttribute(AttributeName = "Кол-воГрамм")]
         [UiName(Name = "Кол-во грамм")]
         public double Grams { get; set; }

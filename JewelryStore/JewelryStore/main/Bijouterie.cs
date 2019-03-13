@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 namespace JewelryOop {
 
     [Serializable]
+    [TextClass]
     [XmlRoot(ElementName = "Бижутерия")]
     public class Bijouterie : Jewelry {
         public Bijouterie(string name, List<Material> materials, double foolRatio) : base(name, materials)
@@ -23,6 +24,7 @@ namespace JewelryOop {
         /// Determines if Bijouterie thing looks cheap or expensive?
         /// </summary>
         [XmlAttribute(AttributeName = "Новизна")]
+        [TextField]
         [UiName(Name = "Насколько хорошо ( % ) выглядит украшение")]
         public double FoolRatio { get; set; }
 
