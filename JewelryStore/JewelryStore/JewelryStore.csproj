@@ -71,6 +71,8 @@
     <Compile Include="main\Attributes\TextClassAttribute.cs" />
     <Compile Include="main\Attributes\TextFieldAttribute.cs" />
     <Compile Include="main\Attributes\UiNameAttribute.cs" />
+    <Compile Include="main\Extensions\ListExtensions.cs" />
+    <Compile Include="main\Extensions\StringExtensions.cs" />
     <Compile Include="main\Serialization\IJewelrySerializer.cs" />
     <Compile Include="main\Serialization\JewelryBinarySerializer.cs" />
     <Compile Include="main\Serialization\JewelrySerialized.cs" />

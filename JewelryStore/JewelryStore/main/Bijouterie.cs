@@ -15,7 +15,7 @@ namespace JewelryOop {
             FoolRatio = foolRatio;
         }
 
-        private Bijouterie() : base()
+        public Bijouterie() : base()
         {
 
         }

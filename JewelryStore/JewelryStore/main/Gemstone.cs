@@ -19,7 +19,7 @@ namespace JewelryOop {
             GemColor = gemColor;
         }
 
-        private Gemstone()
+        public Gemstone()
         {
 
         }

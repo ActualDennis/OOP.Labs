@@ -12,10 +12,9 @@ namespace JewelryStore.main.Serialization {
             Serializers = new Dictionary<string, IJewelrySerializer>()
             {
                 { ".xml", new JewelryXmlSerializer() },
-                { ".bin", new JewelryBinarySerializer() }
+                { ".bin", new JewelryBinarySerializer() },
+                { ".txt", new TextSerializer() }
             };
-
-            //add some code here to add additional serializers from dlls
         }
 
         public Dictionary<string, IJewelrySerializer> Serializers { get; set; }

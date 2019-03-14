@@ -21,7 +21,7 @@ namespace JewelryOop {
             this.UniquenessRatio = uniquenessRatio;
         }
 
-        private PremiumGemstone()
+        public PremiumGemstone()
         {
 
         }

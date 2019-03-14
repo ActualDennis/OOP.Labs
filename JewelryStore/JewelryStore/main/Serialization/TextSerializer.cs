@@ -8,11 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using JewelryOop;
 using JewelryStore.main.Attributes;
+using JewelryStore.main.Extensions;
 
 namespace JewelryStore.main.Serialization {
-    public class TextSerializer {
+    public class TextSerializer : IJewelrySerializer {
 
-        public object Deserialize(FileStream source)
+        /// <summary>
+        /// Used to deserialize a text stream contained in a file.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public object Deserialize(Type t, FileStream source)
         {
             string serializedString;
 
@@ -25,6 +31,14 @@ namespace JewelryStore.main.Serialization {
 
             return ParseObject(serializedString);
         }
+
+
+        /// <summary>
+        /// Used to serialize an USER-DEFINED OBJECT
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="destination"></param>
+
         public void Serialize(object value, FileStream destination)
         {
             string result = Serialize(value);
@@ -38,18 +52,116 @@ namespace JewelryStore.main.Serialization {
 
         private object ParseObject(string serializedObject)
         {
-            var baseClass = serializedObject.Substring(serializedObject.IndexOf("'") + 1,
-                serializedObject.IndexOf("{") - serializedObject.IndexOf("'") - 1 - 1);
+            var baseClass = serializedObject.GetValueInBetween("'", "{", false);
 
             var Class = Assembly.GetExecutingAssembly().CreateInstance(baseClass);
 
+            //remove what we've already parsed
+
+            serializedObject = serializedObject.Substring(serializedObject.IndexOf("{") + 1);
+
             //TODO: Create list of objects, arrays and properties inside this object, fill them. 
+            
+            var classProperties = Class.GetType().GetProperties();
+
+            foreach(var property in classProperties)
+            {
+                var propertyName = serializedObject.GetValueInBetween("|", "=", false);
+                serializedObject = serializedObject.Substring(serializedObject.IndexOf("==") + 2);
+
+                //find property matching parsed name
+
+                foreach (var nestedProperty in classProperties)
+                {
+                    if(propertyName == nestedProperty.Name)
+                    {
+                        var attribs = property.GetCustomAttributes();
+
+                        if(attribs.Any(x => x.GetType() == typeof(TextFieldAttribute)))
+                        {
+                            var value = serializedObject.Substring(0, serializedObject.IndexOf(";"));
+
+                            FillTheProperty(propertyName, value, ref Class);
+
+                            serializedObject = serializedObject.Substring(serializedObject.IndexOf(";") + 1);
+
+                            break;
+                        }
+
+                        if (attribs.Any(x => x.GetType() == typeof(TextArrayAttribute)))
+                        {
+
+                            var value = ParseList(serializedObject.GetValueInBetween("[", "]", true));
+
+                            serializedObject = serializedObject.Remove(serializedObject.IndexOf("["), 1);
+
+                            serializedObject = serializedObject.Remove(serializedObject.LastIndexOf("]"), 1);
+
+                            FillTheProperty(propertyName, value, ref Class);
+                            break;
+                        }
+
+                        if (attribs.Any(x => x.GetType() == typeof(TextClassAttribute)))
+                        {
+                            var value = ParseObject(serializedObject);
+
+                            FillTheProperty(propertyName, value, ref Class);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return Class;
 
         }
 
+        /// <summary>
+        /// Only supports parsing list with complex objects inside for now.
+        /// </summary>
+        /// <param name="serializedArray"></param>
+        /// <returns></returns>
         private List<object> ParseList(string serializedArray)
         {
-            //TODO: Create list of objects inside.
+            var members = new List<string>();
+
+            var builder = new StringBuilder();
+
+            int amountBracesOpened = 0;
+
+            foreach(var ch in serializedArray)
+            {
+                if (ch == '[')
+                    ++amountBracesOpened;
+
+                if (ch == ']')
+                    --amountBracesOpened;
+
+                if (ch == ',' && amountBracesOpened.Equals(0))
+                {
+                    members.Add(builder.ToString());
+                    builder.Clear();
+                    continue;
+                }
+
+                builder.Append(ch);
+            }
+
+            //last member is not followed by comma, so add it now.
+
+            if (amountBracesOpened.Equals(0) && builder.Length != 0)
+            {
+                members.Add(builder.ToString());
+            }
+
+            var result = new List<object>();
+
+            foreach(var member in members)
+            {
+                result.Add(ParseObject(member));
+            }
+
+            return result;
         }
 
         private void FillTheProperty(string name, object value, ref object obj)
@@ -62,12 +174,17 @@ namespace JewelryStore.main.Serialization {
                 {
                     if (property.PropertyType.IsEnum)
                     {
-                        value = ParseEnumVariable(property.Name, property.PropertyType);
+                        value = ParseEnumVariable((string)value, property.PropertyType);
                     }
 
-                    if (property.PropertyType.IsValueType)
+                    if (property.PropertyType.IsValueType && !property.PropertyType.IsEnum)
                     {
-                        value = double.Parse(name);
+                        value = double.Parse((string)value);
+                    }
+
+                    if (property.PropertyType.IsGenericList())
+                    {
+                        value = ((List<object>)value).ConvertList(property.PropertyType);
                     }
 
                     property.SetValue(obj, value);                  

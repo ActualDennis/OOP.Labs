@@ -165,9 +165,6 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Column="1">
-            <Button Command="{Binding TestCommand}"/>
-        </Grid>
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>

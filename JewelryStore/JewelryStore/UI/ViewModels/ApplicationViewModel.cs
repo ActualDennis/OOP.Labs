@@ -60,8 +60,6 @@ namespace JewelryStore.UI.ViewModels {
 
         public ICommand DeserializeCommand => new RelayCommand(() => Deserialize(null), null);
 
-        public ICommand TestCommand => new RelayCommand(() => Test(null), null);
-
         private Dictionary<string, Material> materialsAbstractNames { get; set; }
 
         private Dictionary<string, Jewelry> jewelryAbstractNames { get; set; }
@@ -145,24 +143,6 @@ namespace JewelryStore.UI.ViewModels {
             {
                 MessageBox.Show($"Could not edit jewerly. Reason: {ex.Message}");
             }
-        }
-
-        private void Test(object p)
-        {
-            //Bijouterie bijouterie;
-            //Jewelry anotherJewelry;
-            //var list = new List<Material>();
-            //list.Add(new Gemstone("gem", 12, 12, Color.Black));
-            //list.Add(new PremiumMaterial("premMat", 12, 12));
-            //list.Add(new Material("material", 12, 12));
-
-            //bijouterie = new Bijouterie("1", list, 1);
-            //anotherJewelry = new Jewelry("2", list);
-
-            var fs = new FileStream("H:/test.txt", FileMode.Open);
-
-            var x = new TextSerializer();
-            x.Deserialize(fs);
         }
 
         private void AddJewelry(Object parameter)
@@ -263,7 +243,7 @@ namespace JewelryStore.UI.ViewModels {
         private void Serialize(object p)
         {
             var dialog = new SaveFileDialog();
-            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin";
+            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin|Text file(*.txt)|*.txt";
             var result = dialog.ShowDialog();
 
             if (result == null || result == false)
@@ -271,13 +251,13 @@ namespace JewelryStore.UI.ViewModels {
 
             var extension = Path.GetExtension(dialog.SafeFileName);
 
-            serializationProvider.GetSerializer(extension).Serialize(JewelryList, new FileStream(dialog.FileName, FileMode.Create));
+            serializationProvider.GetSerializer(extension).Serialize(new JewelrySerialized() { jewelries = JewelryList }, new FileStream(dialog.FileName, FileMode.Create));
         }
 
         private void Deserialize(object p)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin";
+            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin|Text file(*.txt)|*.txt";
             var result = dialog.ShowDialog();
 
             if (result == null || result == false)
@@ -285,12 +265,12 @@ namespace JewelryStore.UI.ViewModels {
 
             var extension = Path.GetExtension(dialog.SafeFileName);
             
-            var jewelries = serializationProvider.GetSerializer(extension).Deserialize(new FileStream(dialog.FileName, FileMode.Open));
+            var jewelries = serializationProvider.GetSerializer(extension).Deserialize(typeof(JewelrySerialized), new FileStream(dialog.FileName, FileMode.Open));
 
             JewelryList = null;
             JewelryListUI = null;
 
-            JewelryList = jewelries;
+            JewelryList = ((JewelrySerialized)jewelries).jewelries;
             JewelryListUI = new ObservableCollection<Jewelry>(JewelryList);
         }
 

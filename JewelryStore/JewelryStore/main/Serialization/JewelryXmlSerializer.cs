@@ -10,15 +10,13 @@ using System.Xml.Serialization;
 
 namespace JewelryStore.main.Serialization {
     public class JewelryXmlSerializer : IJewelrySerializer {
-        public List<Jewelry> Deserialize(FileStream source)
+        public object Deserialize(Type objectType, FileStream source)
         {
             try
             {
-                var serializer = new XmlSerializer(typeof(JewelrySerialized));
+                var serializer = new XmlSerializer(objectType);
 
-                var tempObj = (JewelrySerialized)serializer.Deserialize(source);
-
-                return tempObj.jewelries;
+                return serializer.Deserialize(source);
             }
             finally
             {
@@ -30,18 +28,13 @@ namespace JewelryStore.main.Serialization {
         {
             try
             {
-                var objToSerialize = new JewelrySerialized
-                {
-                    jewelries = (List<Jewelry>)value
-                };
-
-                var serializer = new XmlSerializer(objToSerialize.GetType());
+                var serializer = new XmlSerializer(value.GetType());
 
                 var stringWriter = new StringWriter();
                 using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Indent = true, IndentChars = "\t" }))
                 {
                     writer.WriteProcessingInstruction("xml", "version='1.0'");
-                    serializer.Serialize(writer, objToSerialize);
+                    serializer.Serialize(writer, value);
 
                     using (var writer2 = new StreamWriter(destination))
                     {

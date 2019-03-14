@@ -16,12 +16,11 @@ namespace JewelryStore.main.Serialization {
 
         private BinaryFormatter formatter { get; set; }
 
-        public List<Jewelry> Deserialize(FileStream source)
+        public object Deserialize(Type t, FileStream source)
         {
             try
             {
-                var tempObj = (JewelrySerialized)formatter.Deserialize(source);
-                return tempObj.jewelries;
+                return formatter.Deserialize(source);
             }
             finally
             {
@@ -33,9 +32,7 @@ namespace JewelryStore.main.Serialization {
         {
             try
             {
-                var tempObj = new JewelrySerialized();
-                tempObj.jewelries = (List<Jewelry>)value;
-                formatter.Serialize(destination, tempObj);
+                formatter.Serialize(destination, value);
             }
             finally
             {
