@@ -73,6 +73,8 @@
     <Compile Include="main\Attributes\UiNameAttribute.cs" />
     <Compile Include="main\Extensions\ListExtensions.cs" />
     <Compile Include="main\Extensions\StringExtensions.cs" />
+    <Compile Include="main\Factories\JewelryFactory.cs" />
+    <Compile Include="main\Factories\MaterialsFActory.cs" />
     <Compile Include="main\Serialization\IJewelrySerializer.cs" />
     <Compile Include="main\Serialization\JewelryBinarySerializer.cs" />
     <Compile Include="main\Serialization\JewelrySerialized.cs" />

@@ -1,4 +1,6 @@
 ﻿using JewelryOop;
+using JewelryStore.main;
+using JewelryStore.main.Factories;
 using JewelryStore.main.Serialization;
 using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
@@ -17,9 +19,6 @@ using System.Xml.Serialization;
 
 namespace JewelryStore.UI.ViewModels {
 
-    /// <summary>
-    /// ViewModel for storing information about current chat and messages in chat
-    /// </summary>
     public class ApplicationViewModel : BaseViewModel {
 
         public ApplicationViewModel()
@@ -30,6 +29,8 @@ namespace JewelryStore.UI.ViewModels {
             JewelryList = new List<Jewelry>();
             JewelryListUI = new ObservableCollection<Jewelry>();
             serializationProvider = new SerializationProvider();
+            jewelryFactory = new JewelryFactory();
+            materialsFactory = new MaterialsFactory();
         }
 
         public int CurrentAppScreen { get; set; }
@@ -60,9 +61,9 @@ namespace JewelryStore.UI.ViewModels {
 
         public ICommand DeserializeCommand => new RelayCommand(() => Deserialize(null), null);
 
-        private Dictionary<string, Material> materialsAbstractNames { get; set; }
+        private JewelryFactory jewelryFactory { get; set; }
 
-        private Dictionary<string, Jewelry> jewelryAbstractNames { get; set; }
+        private MaterialsFactory materialsFactory { get; set; }
 
         public AddMaterialsViewModel addMaterialsView { get; set; }
 
@@ -78,28 +79,12 @@ namespace JewelryStore.UI.ViewModels {
 
         public string SelectedJewelry { get; set; }
 
-        private void InitializeJewelry()
-        {
-            materialsAbstractNames = new Dictionary<string, Material>()
-            {
-                { "Gemstone", new Gemstone(string.Empty, 0, 0, Color.Black) },
-                { "Premium Gemstone", new PremiumGemstone(string.Empty,0, 0, Color.Black, 1)},
-                { "Premium Material", new PremiumMaterial(string.Empty, 0 , 0)  }
-            };
-
-            jewelryAbstractNames = new Dictionary<string, Jewelry>()
-            {
-                { "Jewelry", new Jewelry(string.Empty, null) },
-                { "Bijouterie", new Bijouterie(string.Empty, null, 1)},
-            };
-        }
 
         private void AddMaterial(Object parameter)
         {
             try
             {
-                InitializeJewelry();
-                var materialToAdd = materialsAbstractNames[ChosenMaterial];
+                var materialToAdd = materialsFactory.NewMaterial(ChosenMaterial);
                 CurrentJewelryMaterials.Add(materialToAdd);
                 addMaterialsView.AlterMaterial(ref materialToAdd,() => MaterialAlteredCallback());
                 CurrentAppScreen = (int)ApplicationScreen.CreateMaterial;
@@ -163,7 +148,7 @@ namespace JewelryStore.UI.ViewModels {
                     return;
                 }
 
-                var jewelry = jewelryAbstractNames[SelectedJewelryType];
+                var jewelry = jewelryFactory.NewJewelry(SelectedJewelryType);
 
                 jewelry.Name = JewelryName;
                 jewelry.Materials = new List<Material>(CurrentJewelryMaterials);
