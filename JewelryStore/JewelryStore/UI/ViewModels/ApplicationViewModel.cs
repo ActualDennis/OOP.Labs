@@ -280,13 +280,13 @@ namespace JewelryStore.UI.ViewModels {
                         return;
                     }
 
-                    //get decoded file stream and its file name
+                    //get decoded file name
 
                     var decodedFileName = plugin.Decode(new FileStream(dialog.FileName, FileMode.Open), dialog.FileName);
                      
                     jewelries = serializer.Deserialize(typeof(JewelrySerialized), new FileStream(decodedFileName, FileMode.Open));
 
-                    //delete decoded file stream
+                    //delete decoded file 
 
                     File.Delete(decodedFileName);
                 }

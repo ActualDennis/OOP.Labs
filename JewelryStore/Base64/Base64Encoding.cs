@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace Base64 {
+namespace JewelryPlugins {
     public class Base64Encoding : IJewelryEncodingPlugin {
         public Base64Encoding()
         {

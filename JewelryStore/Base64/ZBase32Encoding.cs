@@ -1,4 +1,4 @@
-﻿using Base58Check;
+﻿using JewelryPlugins;
 using JewelryStore.main.Plugins;
 using System;
 using System.Collections.Generic;
@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JewelryPlugins {
-    public class Base58Encoding : IJewelryEncodingPlugin {
-        public Base58Encoding()
+    public class ZBase32Encoding : IJewelryEncodingPlugin {
+        public ZBase32Encoding()
         {
-            Extension = DefaultValues.Base58EncodingExtension;
+            Extension = DefaultValues.ZBase32EncodingExtension;
         }
-
+        
         public string Extension { get; }
 
         public string Decode(FileStream source, string fileName)
@@ -27,7 +27,7 @@ namespace JewelryPlugins {
 
             source.Close();
 
-            decodedString = Encoding.UTF8.GetString(Base58CheckEncoding.DecodePlain(decodedString));
+            decodedString = Encoding.UTF8.GetString(Wiry.Base32.Base32Encoding.ZBase32.ToBytes(decodedString));
 
             var result = new FileStream(fileName + "1", FileMode.Create);
 
@@ -44,7 +44,7 @@ namespace JewelryPlugins {
         public void Encode(string value, string fileName)
         {
 
-            value = Base58CheckEncoding.EncodePlain(Encoding.UTF8.GetBytes(value));
+            value = Wiry.Base32.Base32Encoding.ZBase32.GetString(Encoding.UTF8.GetBytes(value));
 
             var result = new FileStream(fileName + Extension, FileMode.Create);
 
@@ -58,7 +58,7 @@ namespace JewelryPlugins {
 
         public override string ToString()
         {
-            return "Base58 Encoding";
+            return "ZBase32 Encoding";
         }
     }
 }
