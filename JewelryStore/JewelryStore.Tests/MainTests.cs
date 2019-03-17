@@ -34,7 +34,7 @@ namespace Tests {
             var fs = new FileStream("H:/test.txt", FileMode.Create);
 
             var x = new TextSerializer();
-            x.Serialize(y, fs);
+          //  x.Serialize(y, fs);
         }
 
         public Type test1(object value)

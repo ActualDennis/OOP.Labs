@@ -5,7 +5,7 @@ using System.IO;
 
 namespace JewelryStore.main.Serialization {
     public interface IJewelrySerializer {
-        void Serialize(object value, FileStream destination);
+        string Serialize(object value);
 
         object Deserialize(Type objectType, FileStream source);
     }

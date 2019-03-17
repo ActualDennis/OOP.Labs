@@ -24,28 +24,17 @@ namespace JewelryStore.main.Serialization {
             }
         }
 
-        public void Serialize(object value, FileStream destination)
+        public string Serialize(object value)
         {
-            try
-            {
-                var serializer = new XmlSerializer(value.GetType());
+            var serializer = new XmlSerializer(value.GetType());
 
-                var stringWriter = new StringWriter();
-                using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Indent = true, IndentChars = "\t" }))
-                {
-                    writer.WriteProcessingInstruction("xml", "version='1.0'");
-                    serializer.Serialize(writer, value);
-
-                    using (var writer2 = new StreamWriter(destination))
-                    {
-                        writer2.Write(stringWriter.ToString());
-                        writer2.Flush();
-                    }
-                }
-            }
-            finally
+            var stringWriter = new StringWriter();
+            using (var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings() { Indent = true, IndentChars = "\t" }))
             {
-                destination.Close();
+                writer.WriteProcessingInstruction("xml", "version='1.0'");
+                serializer.Serialize(writer, value);
+
+                return stringWriter.ToString();
             }
         }
     }

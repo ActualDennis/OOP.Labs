@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -74,12 +74,16 @@
     <Compile Include="main\Extensions\ListExtensions.cs" />
     <Compile Include="main\Extensions\StringExtensions.cs" />
     <Compile Include="main\Factories\JewelryFactory.cs" />
-    <Compile Include="main\Factories\MaterialsFActory.cs" />
+    <Compile Include="main\Factories\JewelrySerializersFactory.cs" />
+    <Compile Include="main\Factories\MaterialsFactory.cs" />
+    <Compile Include="main\Plugins\IJewelryEncodingPlugin.cs" />
+    <Compile Include="main\Factories\PluginFactory.cs" />
+    <Compile Include="main\Plugins\PluginsLoader.cs" />
     <Compile Include="main\Serialization\IJewelrySerializer.cs" />
     <Compile Include="main\Serialization\JewelryBinarySerializer.cs" />
     <Compile Include="main\Serialization\JewelrySerialized.cs" />
     <Compile Include="main\Serialization\JewelryXmlSerializer.cs" />
-    <Compile Include="main\Serialization\SerializationProvider.cs" />
+    <Compile Include="main\Serialization\SerializationHelper.cs" />
     <Compile Include="main\Serialization\TextSerializer.cs" />
     <Compile Include="main\TypeExtensions.cs" />
     <Compile Include="UI\Data\AddMaterialItem.cs" />

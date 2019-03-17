@@ -1,6 +1,7 @@
 ﻿using JewelryOop;
 using JewelryStore.main;
 using JewelryStore.main.Factories;
+using JewelryStore.main.Plugins;
 using JewelryStore.main.Serialization;
 using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
@@ -28,9 +29,10 @@ namespace JewelryStore.UI.ViewModels {
             CurrentJewelryMaterials = new List<Material>();
             JewelryList = new List<Jewelry>();
             JewelryListUI = new ObservableCollection<Jewelry>();
-            serializationProvider = new SerializationProvider();
             jewelryFactory = new JewelryFactory();
             materialsFactory = new MaterialsFactory();
+            Plugins = PluginsLoader<IJewelryEncodingPlugin>.Load();
+            serializersFactory = new JewelrySerializersFactory();
         }
 
         public int CurrentAppScreen { get; set; }
@@ -44,6 +46,8 @@ namespace JewelryStore.UI.ViewModels {
         public string[] Materials { get; set; } = new string[] { "Gemstone", "Premium Gemstone", "Premium Material" };
 
         public string ChosenMaterial { get; set; }
+
+        public int SelectedPluginIndex { get; set; }
 
         public string[] JewelryTypes { get; set; } = new string[] { "Jewelry", "Bijouterie" };
 
@@ -65,6 +69,8 @@ namespace JewelryStore.UI.ViewModels {
 
         private MaterialsFactory materialsFactory { get; set; }
 
+        private JewelrySerializersFactory serializersFactory { get; set; }
+
         public AddMaterialsViewModel addMaterialsView { get; set; }
 
         public EditJewelryViewModel editJewelryView { get; set; }
@@ -75,7 +81,8 @@ namespace JewelryStore.UI.ViewModels {
 
         public ObservableCollection<Jewelry> JewelryListUI { get; set; }
 
-        public SerializationProvider serializationProvider { get; set; }
+
+        public List<IJewelryEncodingPlugin> Plugins { get; set; }
 
         public string SelectedJewelry { get; set; }
 
@@ -228,35 +235,77 @@ namespace JewelryStore.UI.ViewModels {
         private void Serialize(object p)
         {
             var dialog = new SaveFileDialog();
-            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin|Text file(*.txt)|*.txt";
+            dialog.Filter = "Encoded XML file(*.xml)|*.xml|Encoded Binary data (*.bin)|*.bin|Encoded Text file(*.txt)|*.txt";
             var result = dialog.ShowDialog();
 
             if (result == null || result == false)
                 return;
 
-            var extension = Path.GetExtension(dialog.SafeFileName);
+            var serialized = serializersFactory.NewSerializer(dialog.FileName).Serialize(new JewelrySerialized() { jewelries = JewelryList });
 
-            serializationProvider.GetSerializer(extension).Serialize(new JewelrySerialized() { jewelries = JewelryList }, new FileStream(dialog.FileName, FileMode.Create));
+            Plugins[SelectedPluginIndex].Encode(serialized, dialog.FileName);
         }
 
         private void Deserialize(object p)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "XML file(*.xml)|*.xml|Binary data (*.bin)|*.bin|Text file(*.txt)|*.txt";
+            dialog.Filter = "Any file(xml,bin,txt or their encoded versions)|*.*";
+
             var result = dialog.ShowDialog();
 
             if (result == null || result == false)
                 return;
 
             var extension = Path.GetExtension(dialog.SafeFileName);
-            
-            var jewelries = serializationProvider.GetSerializer(extension).Deserialize(typeof(JewelrySerialized), new FileStream(dialog.FileName, FileMode.Open));
 
-            JewelryList = null;
-            JewelryListUI = null;
+            var serializer = serializersFactory.NewSerializer(dialog.FileName);
 
-            JewelryList = ((JewelrySerialized)jewelries).jewelries;
-            JewelryListUI = new ObservableCollection<Jewelry>(JewelryList);
+            if(serializer == null)
+            {
+                MessageBox.Show("Cannot load this file.");
+                return;
+            }
+
+            try
+            {
+                Object jewelries;
+
+                if (SerializationHelper.IsPluginUsed(extension))
+                {
+                    var plugin = PluginFactory.GetPlugin(SerializationHelper.GetPluginExtension(Path.GetExtension(dialog.SafeFileName)), Plugins);
+
+                    if (plugin == null)
+                    {
+                        MessageBox.Show("Some plugins are missing!");
+                        return;
+                    }
+
+                    //get decoded file stream and its file name
+
+                    var decodedFileName = plugin.Decode(new FileStream(dialog.FileName, FileMode.Open), dialog.FileName);
+                     
+                    jewelries = serializer.Deserialize(typeof(JewelrySerialized), new FileStream(decodedFileName, FileMode.Open));
+
+                    //delete decoded file stream
+
+                    File.Delete(decodedFileName);
+                }
+                else // no plugins were used
+                {
+                    jewelries = serializer.Deserialize(typeof(JewelrySerialized), new FileStream(dialog.FileName, FileMode.Open));
+                }
+
+
+                JewelryList = null;
+                JewelryListUI = null;
+
+                JewelryList = ((JewelrySerialized)jewelries).jewelries;
+                JewelryListUI = new ObservableCollection<Jewelry>(JewelryList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not load this file. Either its contents are incorrect or was not generated by this program. Detailed message : {ex.Message}");
+            }
         }
 
         private bool IsMaterialAlterred(Material material)

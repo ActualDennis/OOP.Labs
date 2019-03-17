@@ -27,18 +27,12 @@ namespace JewelryStore.main.Serialization {
                 source.Close();
             }
         }
-
-        public void Serialize(object value, FileStream destination)
+        
+        public string Serialize(object value)
         {
-            try
-            {
-                formatter.Serialize(destination, value);
-            }
-            finally
-            {
-                destination.Close();
-            }
-
+            var memoryStream = new MemoryStream();
+            formatter.Serialize(memoryStream, value);
+            return Encoding.UTF8.GetString(memoryStream.ToArray());
         }
     }
 }

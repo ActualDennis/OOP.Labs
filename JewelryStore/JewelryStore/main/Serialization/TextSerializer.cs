@@ -39,15 +39,9 @@ namespace JewelryStore.main.Serialization {
         /// <param name="value"></param>
         /// <param name="destination"></param>
 
-        public void Serialize(object value, FileStream destination)
+        public string Serialize(object value)
         {
-            string result = Serialize(value);
-
-            using (var writer = new StreamWriter(destination))
-            {
-                writer.Write(result);
-            }
-           
+            return Serialize(value, false);           
         }
 
         private object ParseObject(string serializedObject)
@@ -197,7 +191,7 @@ namespace JewelryStore.main.Serialization {
             return Enum.Parse(enumType, memberName);
         }
 
-        private string Serialize(object member)
+        private string Serialize(object member, bool x)
         {
             var result = string.Empty;
 
