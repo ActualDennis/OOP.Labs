@@ -24,7 +24,7 @@ namespace JewelryStore.main.Serialization {
             }
         }
 
-        public string Serialize(object value)
+        public byte[] Serialize(object value)
         {
             var serializer = new XmlSerializer(value.GetType());
 
@@ -34,7 +34,7 @@ namespace JewelryStore.main.Serialization {
                 writer.WriteProcessingInstruction("xml", "version='1.0'");
                 serializer.Serialize(writer, value);
 
-                return stringWriter.ToString();
+                return Encoding.UTF8.GetBytes(stringWriter.ToString());
             }
         }
     }

@@ -241,7 +241,7 @@ namespace JewelryStore.UI.ViewModels {
             if (result == null || result == false)
                 return;
 
-            var serialized = serializersFactory.NewSerializer(dialog.FileName).Serialize(new JewelrySerialized() { jewelries = JewelryList });
+            byte[] serialized = serializersFactory.NewSerializer(dialog.FileName).Serialize(new JewelrySerialized() { jewelries = JewelryList });
 
             Plugins[SelectedPluginIndex].Encode(serialized, dialog.FileName);
         }

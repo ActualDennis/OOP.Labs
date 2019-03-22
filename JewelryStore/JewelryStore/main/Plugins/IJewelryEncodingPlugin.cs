@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JewelryStore.main.Plugins {
     public interface IJewelryEncodingPlugin {
-        void Encode(string value, string fileName);
+        void Encode(byte[] value, string fileName);
 
         /// <summary>
         /// Decodes contents of filestream and returns name of a file with decoded contents,

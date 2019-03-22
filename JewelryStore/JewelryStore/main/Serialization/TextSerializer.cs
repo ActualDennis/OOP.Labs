@@ -39,9 +39,9 @@ namespace JewelryStore.main.Serialization {
         /// <param name="value"></param>
         /// <param name="destination"></param>
 
-        public string Serialize(object value)
+        public byte[] Serialize(object value)
         {
-            return Serialize(value, false);           
+            return Encoding.UTF8.GetBytes(Serialize(value, false));           
         }
 
         private object ParseObject(string serializedObject)
@@ -217,7 +217,7 @@ namespace JewelryStore.main.Serialization {
 
                     foreach (var item in ienumerable)
                     {
-                        result += $"{Serialize(item)}\n";
+                        result += $"{Serialize(item, false)}\n";
                         result += ",";
                     }
 

@@ -28,11 +28,11 @@ namespace JewelryStore.main.Serialization {
             }
         }
         
-        public string Serialize(object value)
+        public byte[] Serialize(object value)
         {
             var memoryStream = new MemoryStream();
             formatter.Serialize(memoryStream, value);
-            return Encoding.UTF8.GetString(memoryStream.ToArray());
+            return memoryStream.ToArray();
         }
     }
 }

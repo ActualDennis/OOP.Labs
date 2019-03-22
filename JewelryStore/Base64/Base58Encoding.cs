@@ -27,13 +27,13 @@ namespace JewelryPlugins {
 
             source.Close();
 
-            decodedString = Encoding.UTF8.GetString(Base58CheckEncoding.DecodePlain(decodedString));
+            var decoded = Base58CheckEncoding.DecodePlain(decodedString);
 
             var result = new FileStream(fileName + "1", FileMode.Create);
 
-            using (var writer = new StreamWriter(result))
+            using (var writer = new BinaryWriter(result))
             {
-                writer.Write(decodedString);
+                writer.Write(decoded);
             }
 
             result.Close();
@@ -41,16 +41,16 @@ namespace JewelryPlugins {
             return fileName + "1";
         }
 
-        public void Encode(string value, string fileName)
+        public void Encode(byte[] value, string fileName)
         {
 
-            value = Base58CheckEncoding.EncodePlain(Encoding.UTF8.GetBytes(value));
-
+            string newValue = Base58CheckEncoding.EncodePlain(value);
+            
             var result = new FileStream(fileName + Extension, FileMode.Create);
 
             using (var writer = new StreamWriter(result))
             {
-                writer.Write(value);
+                writer.Write(newValue);
             }
 
             result.Close();

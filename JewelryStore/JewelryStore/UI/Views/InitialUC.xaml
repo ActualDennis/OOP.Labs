@@ -251,7 +251,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <ComboBox Width="120" ItemsSource="{Binding Plugins}" SelectedIndex="{Binding SelectedPluginIndex}"/>
+                    <ComboBox Width="120" Foreground="White" ItemsSource="{Binding Plugins}" SelectedIndex="{Binding SelectedPluginIndex}"/>
 
 
                     <Button FontSize="12" 
