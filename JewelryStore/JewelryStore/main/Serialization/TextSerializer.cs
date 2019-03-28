@@ -27,8 +27,6 @@ namespace JewelryStore.main.Serialization {
                 serializedString = reader.ReadToEnd();
             }
 
-            serializedString = serializedString.Replace("\n", "");
-
             return ParseObject(serializedString);
         }
 
@@ -197,14 +195,14 @@ namespace JewelryStore.main.Serialization {
 
             if (IsSerializableClass(member))
             {
-                result += $"\n'{member.GetType().FullName}'";
-                result += "\n{";
+                result += $"'{member.GetType().FullName}'";
+                result += "{";
 
                 var fields = GetMembersWithTextFieldAttribute(member);
 
                 foreach (var field in fields)
                 {
-                    result += $"\n|{field.Name}|=={field.GetMethod.Invoke(member, null)};";
+                    result += $"|{field.Name}|=={field.GetMethod.Invoke(member, null)};";
                 }
 
                 var arrays = GetMembersWithTextArrayAttribute(member);
@@ -213,20 +211,20 @@ namespace JewelryStore.main.Serialization {
                 {
                     var ienumerable = (IEnumerable<object>)array.GetMethod.Invoke(member, null);
                     result += $"|{array.Name}|==";
-                    result += "\n[";
+                    result += "[";
 
                     foreach (var item in ienumerable)
                     {
-                        result += $"{Serialize(item, false)}\n";
+                        result += $"{Serialize(item, false)}";
                         result += ",";
                     }
 
                     result = result.Remove(result.Length - 1);
 
-                    result += "\n]";
+                    result += "]";
                 }
 
-                result += "\n}";
+                result += "}";
             }
             else
             {
