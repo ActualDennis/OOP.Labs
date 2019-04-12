@@ -1,4 +1,6 @@
-﻿using JewelryStore.main.Attributes;
+﻿using JewelryStore.main;
+using JewelryStore.main.Attributes;
+using JewelryStore.main.Visitors;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +12,7 @@ namespace JewelryOop {
     [TextClass]
     [XmlType(TypeName = "ДорогоеУкрашение")]
     [XmlInclude(typeof(Bijouterie))]
-    public class Jewelry {
+    public class Jewelry : IJewelry {
         public Jewelry(string name, List<Material> materials)
         { 
             Materials = materials;
@@ -87,6 +89,11 @@ namespace JewelryOop {
         public override string ToString()
         {
             return Name;
+        }
+
+        public virtual void Accept(IJewelryVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

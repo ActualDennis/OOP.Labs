@@ -3,6 +3,7 @@ using JewelryStore.main;
 using JewelryStore.main.Factories;
 using JewelryStore.main.Plugins;
 using JewelryStore.main.Serialization;
+using JewelryStore.main.Visitors;
 using JewelryStore.UI.Data;
 using JewelryStore.UI.Helpers;
 using Microsoft.Win32;
@@ -75,7 +76,7 @@ namespace JewelryStore.UI.ViewModels {
 
         public EditJewelryViewModel editJewelryView { get; set; }
 
-        private List<Material> CurrentJewelryMaterials { get; set; }
+        public List<Material> CurrentJewelryMaterials { get; set; }
 
         public List<Jewelry> JewelryList { get; set; }
 
@@ -157,13 +158,9 @@ namespace JewelryStore.UI.ViewModels {
 
                 var jewelry = jewelryFactory.NewJewelry(SelectedJewelryType);
 
-                jewelry.Name = JewelryName;
-                jewelry.Materials = new List<Material>(CurrentJewelryMaterials);
+                var visitor = new JewelryVisitor(this);
 
-                if (jewelry is Bijouterie)
-                {
-                    ((Bijouterie)jewelry).FoolRatio = double.Parse(FoolRatioPercents) / 100;
-                }
+                jewelry.Accept(visitor);
 
                 MessageBox.Show($"Successfully added {jewelry.Name}.");
 

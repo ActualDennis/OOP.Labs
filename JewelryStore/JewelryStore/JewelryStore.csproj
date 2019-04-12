@@ -76,6 +76,7 @@
     <Compile Include="main\Factories\JewelryFactory.cs" />
     <Compile Include="main\Factories\JewelrySerializersFactory.cs" />
     <Compile Include="main\Factories\MaterialsFactory.cs" />
+    <Compile Include="main\IJewelry.cs" />
     <Compile Include="main\Plugins\IJewelryEncodingPlugin.cs" />
     <Compile Include="main\Factories\PluginFactory.cs" />
     <Compile Include="main\Plugins\PluginsLoader.cs" />
@@ -86,6 +87,8 @@
     <Compile Include="main\Serialization\SerializationHelper.cs" />
     <Compile Include="main\Serialization\TextSerializer.cs" />
     <Compile Include="main\TypeExtensions.cs" />
+    <Compile Include="main\Visitors\IJewelryVisitor.cs" />
+    <Compile Include="main\Visitors\JewelryVisitor.cs" />
     <Compile Include="UI\Data\AddMaterialItem.cs" />
     <Compile Include="UI\Data\ApplicationScreen.cs" />
     <Compile Include="UI\Data\UiElementType.cs" />
